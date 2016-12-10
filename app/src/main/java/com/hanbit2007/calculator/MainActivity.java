@@ -7,13 +7,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hanbit2007.calculator.domain.CalcDTO;
+import com.hanbit2007.calculator.service.CalcService;
+import com.hanbit2007.calculator.service.CalcServiceImpl;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     EditText etNum1, etNum2;
     Button btPlus, btMinus, btMulti, btDivide, btMod, btEqual;
     TextView tvResult;
     String sResult;
 //    int nResult;
-
+    CalcService service;
+    CalcDTO cal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btDivide.setOnClickListener(this);
         btMod.setOnClickListener(this);
         btEqual.setOnClickListener(this);
+        service = new CalcServiceImpl();
+        cal = new CalcDTO();
     }
 
     @Override
@@ -45,29 +52,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int num2 = Integer.parseInt(etNum2.getText().toString());
         int nResult = 0;
 
+        cal.setNum1(num1);
+        cal.setNum2(num2);
         switch(v.getId()) {
             case R.id.btPlus:
-                nResult = num1 + num2;
+                nResult = service.plus(cal);
                 tvResult.setText("RESULT(Plus): " + nResult);
                 sResult = tvResult.getText().toString();
                 break;
             case R.id.btMinus:
-                nResult = num1 - num2;
+                nResult = service.minus(cal);
                 tvResult.setText("RESULT(Minus): " + nResult);
                 sResult = tvResult.getText().toString();
                 break;
             case R.id.btMulti:
-                nResult = num1 * num2;
+                nResult = service.multi(cal);
                 tvResult.setText("RESULT(Multi): " + nResult);
                 sResult = tvResult.getText().toString();
                 break;
             case R.id.btDivide:
-                nResult = num1 / num2;
+                nResult = service.divid(cal);
                 tvResult.setText("RESULT(Divide): " + nResult);
                 sResult = tvResult.getText().toString();
                 break;
             case R.id.btMod:
-                nResult = num1 % num2;
+                nResult = service.mod(cal);
                 tvResult.setText("RESULT(Mod): " + nResult);
                 sResult = tvResult.getText().toString();
                 break;
